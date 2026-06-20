@@ -20,13 +20,13 @@ class AppBottom extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 300.w,
-        padding: EdgeInsets.symmetric(vertical: 15.h),
+        padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
           border: barColor == null
               ? null
               : Border.all(color: Colors.black, width: 1.5),
           color: barColor,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Center(
           child: Text(

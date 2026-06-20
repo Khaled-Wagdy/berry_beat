@@ -1,8 +1,12 @@
 import 'package:bery_beat/core/custom/app_bottom.dart';
 import 'package:bery_beat/core/custom/build_featuer_item.dart';
+import 'package:bery_beat/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:bery_beat/core/localization/app_locale.dart';
+import 'package:bery_beat/core/custom/language_toggle_button.dart';
 
 class FeatureScreen extends StatelessWidget {
   const FeatureScreen({super.key});
@@ -14,20 +18,39 @@ class FeatureScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 10.h),
-            Text(
-              'our features',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 38.sp,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF134E3D),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              child: SizedBox(
+                height: 50.h,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Text(
+                      AppLocale.ourFeatures.getString(context),
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 32.sp,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF134E3D),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: LanguageToggleButton(
+                        backgroundColor: Colors.white,
+                        textColor: const Color(0xFF134E3D),
+                        borderColor: const Color(0xFF134E3D).withOpacity(0.3),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 10.h),
             Image.asset(
               'assets/image/featuers_image.png',
-              height: 120.h,
-              fit: BoxFit.contain,
+              width: 100.w,
+              height: 100.h,
+              fit: BoxFit.cover,
             ),
             SizedBox(height: 30.h),
             Expanded(
@@ -37,35 +60,32 @@ class FeatureScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FeatureItem(
-                      title: 'early detection',
-                      desc:
-                          'We detect strawberry diseases and nutrient deficiencies at an early stage before they spread and cause serious damage.',
+                      title: AppLocale.earlyDetectionTitle.getString(context),
+                      desc: AppLocale.earlyDetectionDesc.getString(context),
                       color: const Color(0xFF8B1A1A),
                     ),
                     FeatureItem(
-                      title: 'Accurate AI Diagnosis',
-                      desc:
-                          'Upload a plant image and our program analyzes the symptoms to identify the exact problem quickly and accurately.',
+                      title: AppLocale.aiDiagnosisTitle.getString(context),
+                      desc: AppLocale.aiDiagnosisDesc.getString(context),
                       color: const Color(0xFF134E3D),
                     ),
                     FeatureItem(
-                      title: 'Ready Treatment',
-                      desc:
-                          'Once the issue is detected, we provide clear, ready-to-apply treatment recommendations to restore plant health.',
+                      title: AppLocale.readyTreatmentTitle.getString(context),
+                      desc: AppLocale.readyTreatmentDesc.getString(context),
                       color: const Color(0xFF8B1A1A),
                     ),
                     Column(
                       children: [
                         AppBottom(
-                          text: 'Sign In',
+                          text: AppLocale.signIn.getString(context),
                           barColor: const Color(0xFF22B387),
-                          onTap: () => Navigator.pushNamed(context, '/signIn'),
+                          onTap: () => Navigator.pushNamed(context, Routes.signInScreen),
                         ),
                         SizedBox(height: 15.h),
                         AppBottom(
-                          text: 'Sign Up',
+                          text: AppLocale.signUp.getString(context),
                           barColor: const Color(0xFF22B387),
-                          onTap: () => Navigator.pushNamed(context, '/signUp'),
+                          onTap: () => Navigator.pushNamed(context, Routes.signUpScreen),
                         ),
                       ],
                     ),

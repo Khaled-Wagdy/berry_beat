@@ -1,30 +1,13 @@
-import 'dart:async';
-import 'package:bery_beat/features/screens/info_screen.dart';
+import 'package:bery_beat/core/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:bery_beat/core/localization/app_locale.dart';
+import 'package:bery_beat/core/custom/language_toggle_button.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    Timer(const Duration(seconds: 4), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const InfoScreen()),
-        );
-      }
-    });
-  }
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +20,13 @@ class _SplashScreenState extends State<SplashScreen> {
               'assets/image/strawberry_image.png',
               fit: BoxFit.cover,
             ),
+          ),
+
+          // Language Toggle Button
+          Positioned(
+            top: 50.h,
+            right: 20.w,
+            child: const LanguageToggleButton(),
           ),
 
           Center(
@@ -83,16 +73,38 @@ class _SplashScreenState extends State<SplashScreen> {
                         height: 1.2.h,
                       ),
                       children: [
-                        const TextSpan(text: 'Detect Early,\nKeep the '),
+                        TextSpan(text: AppLocale.welcomeSubtitle1.getString(context)),
                         TextSpan(
-                          text: 'Beat',
+                          text: AppLocale.welcomeSubtitle2.getString(context),
                           style: const TextStyle(color: Color(0xFFE31E24)),
                         ),
-                        const TextSpan(text: '\nHealthy'),
+                        TextSpan(text: AppLocale.welcomeSubtitle3.getString(context)),
                       ],
                     ),
                   ),
                   SizedBox(height: 30.h),
+
+                  // Next Button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, Routes.infoScreen);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(12.r),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFE31E24),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 20.sp,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

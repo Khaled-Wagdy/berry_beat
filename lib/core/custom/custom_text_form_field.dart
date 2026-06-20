@@ -1,39 +1,63 @@
 import 'package:flutter/material.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     required this.hintText,
     this.suffixIcon,
     this.keyboardType,
-    this.isPassowrd = false,
-    this.obscureText = false,
+    this.isPassword = false,
+    this.obscureText = true,
     this.controller,
     required this.label,
   });
+
   final String label;
   final String hintText;
   final Widget? suffixIcon;
   final TextInputType? keyboardType;
-  final bool isPassowrd;
+  final bool isPassword;
   final bool obscureText;
-  final TextEditingController?
-  controller; // Variable to track password visibility
+  final TextEditingController? controller;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool _obscureText;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
+      controller: widget.controller,
       onTapUpOutside: (v) {
         FocusScope.of(context).unfocus();
       },
-      keyboardType: keyboardType,
-      obscureText: isPassowrd ? obscureText : false,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.isPassword ? _obscureText : false,
       decoration: InputDecoration(
-        hintText: hintText,
-        label: Text(label),
-
-        suffixIcon: isPassowrd ? suffixIcon : null,
+        hintText: widget.hintText,
+        label: Text(widget.label),
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: Icon(
+                  _obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: const Color(0xFF8391A1),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              )
+            : widget.suffixIcon,
         filled: true,
         fillColor: const Color(0xFFF7F8F9),
         border: OutlineInputBorder(

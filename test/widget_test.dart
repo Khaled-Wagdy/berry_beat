@@ -7,13 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:bery_beat/main.dart';
+import 'package:bery_beat/berry_beat_app.dart';
+import 'package:bery_beat/core/routes/app_router.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(BerryBeatApp(appRouter: AppRouter(), isLoggedIn: false));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
