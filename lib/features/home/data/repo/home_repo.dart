@@ -1,20 +1,24 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:bery_beat/features/home/data/model/disease_prediction_model.dart';
-import 'package:bery_beat/features/home/data/model/treatment_model.dart';
+import '../../../../core/networking/api_constants.dart';
+import '../../../../core/networking/error_handler.dart';
+import '../model/disease_prediction_model.dart';
+import '../model/treatment_model.dart';
 
 class HomeRepo {
-  static Dio dio = Dio();
+  final Dio _dio;
 
-  static Future<DiseasePredictionModel?> uploadImage(File image) async {
+  HomeRepo(this._dio);
+
+  Future<DiseasePredictionModel?> uploadImage(File image) async {
     try {
       String fileName = image.path.split('/').last;
       FormData formData = FormData.fromMap({
         "file": await MultipartFile.fromFile(image.path, filename: fileName),
       });
 
-      final response = await dio.post(
-        "https://riboku314-straberry-space.hf.space/predict",
+      final response = await _dio.post(
+        ApiConstants.predictDisease,
         data: formData,
       );
 
@@ -23,14 +27,15 @@ class HomeRepo {
       }
       return null;
     } catch (e) {
-      throw Exception("Failed to upload image: $e");
+      final errorModel = ApiErrorHandler.handle(e);
+      throw Exception(errorModel.message);
     }
   }
 
-  static Future<TreatmentModel?> getTreatment(String disease, String languageCode) async {
+  Future<TreatmentModel?> getTreatment(String disease, String languageCode) async {
     try {
-      final response = await dio.get(
-        "https://fsm.tryasp.net/api/TreatMent/get-treatment",
+      final response = await _dio.get(
+        ApiConstants.getTreatment,
         queryParameters: {
           "disease": disease,
           "language": languageCode,
@@ -43,7 +48,8 @@ class HomeRepo {
         throw Exception(response.data['message'] ?? "Unknown error occurred");
       }
     } catch (e) {
-      throw Exception("Failed to get treatment: $e");
+      final errorModel = ApiErrorHandler.handle(e);
+      throw Exception(errorModel.message);
     }
   }
 }

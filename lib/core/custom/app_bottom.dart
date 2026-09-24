@@ -22,9 +22,7 @@ class AppBottom extends StatelessWidget {
         width: 300.w,
         padding: EdgeInsets.symmetric(vertical: 16.h),
         decoration: BoxDecoration(
-          border: barColor == null
-              ? null
-              : Border.all(color: Colors.black, width: 1.5),
+          border: Border.all(color: Colors.black, width: 1.5),
           color: barColor,
           borderRadius: BorderRadius.circular(16.r),
         ),

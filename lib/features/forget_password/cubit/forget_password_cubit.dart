@@ -3,7 +3,9 @@ import '../data/repo/forget_password_repo.dart';
 import 'forget_password_state.dart';
 
 class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
-  ForgetPasswordCubit() : super(ForgetPasswordInitial());
+  final ForgetPasswordRepo _forgetPasswordRepo;
+
+  ForgetPasswordCubit(this._forgetPasswordRepo) : super(ForgetPasswordInitial());
 
   String? email;
   String? code;
@@ -12,7 +14,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     final trimmedEmail = email.trim();
     this.email = trimmedEmail;
     emit(ForgetPasswordLoading());
-    final error = await ForgetPasswordRepo.sendResetPasswordCode(email: trimmedEmail);
+    final error = await _forgetPasswordRepo.sendResetPasswordCode(email: trimmedEmail);
     if (error == null) {
       emit(CodeSentSuccess());
     } else {
@@ -27,7 +29,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     }
     this.code = code;
     emit(ForgetPasswordLoading());
-    final error = await ForgetPasswordRepo.confirmCode(
+    final error = await _forgetPasswordRepo.confirmCode(
       email: email!,
       code: code,
     );
@@ -51,7 +53,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     }
 
     emit(ForgetPasswordLoading());
-    final error = await ForgetPasswordRepo.resetPassword(
+    final error = await _forgetPasswordRepo.resetPassword(
       email: email!,
       code: code!,
       newPassword: newPassword,

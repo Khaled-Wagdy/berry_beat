@@ -15,7 +15,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_localization/flutter_localization.dart';
 import 'package:bery_beat/core/localization/app_locale.dart';
 import 'package:bery_beat/core/custom/language_toggle_button.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart' hide ImageSource;
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart'
+    hide ImageSource;
+import 'package:bery_beat/core/di/service_locator.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -160,7 +162,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => getIt<HomeCubit>(),
       child: Scaffold(
         backgroundColor: const Color(0xFFE9EBEF),
         body: BlocConsumer<HomeCubit, HomeState>(
@@ -340,7 +342,8 @@ class HomeScreen extends StatelessWidget {
                                                         ),
                                                   )
                                                 : Text(
-                                                    AppLocale.getTreatment.getString(context),
+                                                    AppLocale.getTreatment
+                                                        .getString(context),
                                                     style: GoogleFonts.poppins(
                                                       fontSize: 16.sp,
                                                       fontWeight:
@@ -471,7 +474,8 @@ class HomeScreen extends StatelessWidget {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF22B387),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.r)),
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
                               elevation: 5,
                             ),
                             child: state is HomeLoading

@@ -9,9 +9,10 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+  final HomeRepo _homeRepo;
   final ImagePicker _picker = ImagePicker();
 
-  HomeCubit() : super(HomeInitial());
+  HomeCubit(this._homeRepo) : super(HomeInitial());
 
   Future<void> pickImage(ImageSource source) async {
     try {
@@ -49,7 +50,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> uploadImage(File image) async {
     try {
       emit(HomeLoading());
-      final prediction = await HomeRepo.uploadImage(image);
+      final prediction = await _homeRepo.uploadImage(image);
       if (prediction != null) {
         emit(HomePredictionSuccess(image, prediction));
       } else {
@@ -67,7 +68,7 @@ class HomeCubit extends Cubit<HomeState> {
       
       TreatmentModel? treatment;
       try {
-        treatment = await HomeRepo.getTreatment(prediction.prediction, languageCode);
+        treatment = await _homeRepo.getTreatment(prediction.prediction, languageCode);
       } catch (e) {
         treatment = null;
       }

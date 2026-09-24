@@ -1,6 +1,6 @@
+import 'package:bery_beat/core/di/service_locator.dart';
 import 'package:bery_beat/core/routes/routes.dart';
 import 'package:bery_beat/features/auth/cubit/auth_cubit.dart';
-
 import 'package:bery_beat/features/auth/ui/sign_in_screen.dart';
 import 'package:bery_beat/features/auth/ui/sign_up_screen.dart';
 import 'package:bery_beat/features/home/ui/home_screen.dart';
@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
-  // Cubit يتعمل جديد كل مرة يبدأ الـ forget password flow
   ForgetPasswordCubit? _forgetPasswordCubit;
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -23,22 +22,21 @@ class AppRouter {
       case Routes.signInScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => AuthCubit(),
+            create: (context) => getIt<AuthCubit>(),
             child: const SignInScreen(),
           ),
         );
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => AuthCubit(),
+            create: (context) => getIt<AuthCubit>(),
             child: const SignUpScreen(),
           ),
         );
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.forgetPasswordScreen:
-        // كل مرة يفتح صفحة forget password يتعمل cubit جديد نظيف
-        _forgetPasswordCubit = ForgetPasswordCubit();
+        _forgetPasswordCubit = getIt<ForgetPasswordCubit>();
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _forgetPasswordCubit!,

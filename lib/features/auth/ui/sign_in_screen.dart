@@ -2,7 +2,6 @@ import 'package:bery_beat/core/custom/app_bottom.dart';
 import 'package:bery_beat/core/custom/custom_bottom_app_bar.dart';
 import 'package:bery_beat/core/custom/custom_text_form_field.dart';
 import 'package:bery_beat/core/custom/row_costom.dart';
-import 'package:bery_beat/core/custom/social_login_buttons.dart';
 import 'package:bery_beat/core/routes/routes.dart';
 import 'package:bery_beat/core/thems/app_color.dart';
 import 'package:bery_beat/features/auth/cubit/auth_cubit.dart';

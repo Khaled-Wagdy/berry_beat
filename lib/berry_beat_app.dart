@@ -9,9 +9,9 @@ import 'package:bery_beat/core/localization/app_locale.dart';
 class BerryBeatApp extends StatefulWidget {
   final AppRouter appRouter;
   final bool isLoggedIn;
-  
+
   const BerryBeatApp({
-    super.key, 
+    super.key,
     required this.appRouter,
     required this.isLoggedIn,
   });

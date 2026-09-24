@@ -1,13 +1,15 @@
-import 'package:bery_beat/features/auth/cubit/auth_state.dart';
-import 'package:bery_beat/features/auth/data/repo/auth%20_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/repo/auth_repo.dart';
+import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  final AuthRepo _authRepo;
 
-  signIn({required String email, required String password}) async {
+  AuthCubit(this._authRepo) : super(AuthInitial());
+
+  Future<void> signIn({required String email, required String password}) async {
     emit(AuthLoadingState());
-    final error = await AuthRepo.signIn(email: email, password: password);
+    final error = await _authRepo.signIn(email: email, password: password);
     if (error == null) {
       emit(AuthSuccessState());
     } else {
@@ -15,7 +17,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  signUp({
+  Future<void> signUp({
     required String fullName,
     required String userName,
     required String email,
@@ -25,11 +27,10 @@ class AuthCubit extends Cubit<AuthState> {
     required String phoneNumber,
   }) async {
     emit(AuthLoadingState());
-    final error = await AuthRepo.signUp(
+    final error = await _authRepo.signUp(
       fullName: fullName,
       userName: userName,
       email: email,
-
       country: country,
       phoneNumber: phoneNumber,
       password: password,
